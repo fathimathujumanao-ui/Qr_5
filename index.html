@@ -10,237 +10,188 @@
 
 <title>QR Cracker - Gandhi Puzzle</title>
 
-
 <style>
 
 * {
     box-sizing: border-box;
 }
 
-
 body {
-
     margin: 0;
-
     padding: 15px;
-
     font-family: Arial, sans-serif;
-
     background: #111;
-
     color: white;
-
     text-align: center;
 }
 
-
 .container {
-
     width: 100%;
-
     max-width: 550px;
-
     margin: auto;
-
     background: #222;
-
     padding: 25px;
-
     border-radius: 20px;
-
     box-shadow: 0 0 20px #00ff99;
 }
 
-
 h1 {
-
     color: #00ff99;
-
     margin-top: 0;
 }
 
-
 h2 {
-
     color: #00ccff;
 }
 
-
 .instruction {
-
     font-size: 17px;
-
     line-height: 1.6;
 }
-
 
 /* =========================
    PUZZLE
 ========================= */
 
 #puzzle {
-
     width: 100%;
-
     max-width: 420px;
-
     aspect-ratio: 1 / 1;
-
     margin: 25px auto;
-
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     grid-template-rows: repeat(3, 1fr);
-
     gap: 3px;
-
     background: #000;
-
     padding: 3px;
-
     border-radius: 12px;
-
     overflow: hidden;
 }
-
 
 /* =========================
    TILE
 ========================= */
 
 .tile {
-
     position: relative;
-
     width: 100%;
-
     height: 100%;
-
     overflow: hidden;
-
     border: 2px solid #333;
-
     background: white;
-
     cursor: pointer;
-
     touch-action: manipulation;
-
     -webkit-tap-highlight-color: transparent;
 }
 
-
 .tile img {
-
     position: absolute;
-
     width: 300%;
-
     height: 300%;
-
     max-width: none;
-
     pointer-events: none;
-
     user-select: none;
 }
-
 
 /* EMPTY TILE */
 
 .empty {
-
     background: #111;
-
     border: 2px solid #111;
-
     cursor: default;
 }
-
 
 /* =========================
    MESSAGE
 ========================= */
 
 #message {
-
     font-size: 19px;
-
     font-weight: bold;
-
     min-height: 30px;
-
     margin: 15px;
 }
-
 
 /* =========================
    RESET BUTTON
 ========================= */
 
 #resetButton {
-
     padding: 12px 25px;
-
     border: none;
-
     border-radius: 10px;
-
     background: #00ccff;
-
     color: #111;
-
     font-size: 16px;
-
     font-weight: bold;
-
     cursor: pointer;
-
     margin-bottom: 15px;
 }
-
 
 /* =========================
    LOCATION
 ========================= */
 
 #location {
-
     display: none;
-
     margin-top: 30px;
 }
 
-
 #location img {
-
     width: 100%;
-
     max-width: 450px;
-
     border-radius: 15px;
-
     margin-top: 15px;
 }
 
-
 .success {
-
     color: #00ff99;
 }
 
-
 .location-text {
-
     font-size: 20px;
-
     line-height: 1.6;
-
     margin-top: 20px;
 }
 
+/* =========================
+   SECRET CODE
+========================= */
+
+#secretCodeBox {
+    margin: 25px auto;
+    padding: 20px;
+    max-width: 440px;
+    border: 2px solid #00ff99;
+    border-radius: 15px;
+    background: #111;
+    box-shadow: 0 0 18px #00ff99;
+}
+
+.secret-code-title {
+    color: #00ccff;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.secret-code-value {
+    display: inline-block;
+    padding: 14px 18px;
+    border-radius: 10px;
+    background: #00ff99;
+    color: #111;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    font-family: monospace;
+}
+
+.secret-code-note {
+    margin-top: 12px;
+    color: #ccc;
+    font-size: 14px;
+}
 
 /* =========================
    MOBILE
@@ -249,60 +200,49 @@ h2 {
 @media (max-width: 500px) {
 
     body {
-
         padding: 10px;
     }
 
-
     .container {
-
         padding: 18px;
     }
 
-
     h1 {
-
         font-size: 28px;
     }
 
-
     h2 {
-
         font-size: 21px;
     }
 
-
     .instruction {
-
         font-size: 16px;
     }
 
-
     .location-text {
-
         font-size: 18px;
     }
 
+    .secret-code-value {
+        font-size: 19px;
+        letter-spacing: 2px;
+        padding: 12px 14px;
+    }
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-
 <h1>🧩 QR CRACKER</h1>
-
 
 <h2>
 REVEAL THE NEXT LOCATION
 </h2>
-
 
 <p class="instruction">
 
@@ -316,25 +256,17 @@ Tap a piece next to the empty space to move it.
 
 </p>
 
-
 <!-- PUZZLE -->
 
 <div id="puzzle"></div>
 
-
 <button id="resetButton">
-
 🔄 SHUFFLE AGAIN
-
 </button>
 
-
 <p id="message">
-
 Loading puzzle...
-
 </p>
-
 
 <!-- =========================
      LOCATION REVEAL
@@ -342,33 +274,39 @@ Loading puzzle...
 
 <div id="location">
 
-
 <h2 class="success">
-
 🎉 PUZZLE SOLVED!
-
 </h2>
 
-
 <p>
-
 You have unlocked the next location!
-
 </p>
 
+<!-- SECRET CODE -->
+<div id="secretCodeBox">
+
+    <div class="secret-code-title">
+        🔐 SECRET CODE
+    </div>
+
+    <div class="secret-code-value">
+        VX7-KR29-MQ4-ZP
+    </div>
+
+    <div class="secret-code-note">
+        Keep this code. You will need it for the next stage.
+    </div>
+
+</div>
 
 <img
     src="gandhi.jpg"
     alt="Gandhi Location"
 >
 
-
 <h2>
-
 📍 NEXT DESTINATION
-
 </h2>
-
 
 <p class="location-text">
 
@@ -382,24 +320,18 @@ Go there and search carefully for the
 
 </p>
 
-
 </div>
 
-
 </div>
-
 
 <script>
-
 
 /* ==================================================
    SETTINGS
 ================================================== */
 
 const SIZE = 3;
-
 const TOTAL = 9;
-
 
 /* ==================================================
    ELEMENTS
@@ -408,18 +340,14 @@ const TOTAL = 9;
 const puzzle =
     document.getElementById("puzzle");
 
-
 const message =
     document.getElementById("message");
-
 
 const resetButton =
     document.getElementById("resetButton");
 
-
 const locationBox =
     document.getElementById("location");
-
 
 /* ==================================================
    PUZZLE ARRAY
@@ -435,7 +363,6 @@ const locationBox =
 
 let tiles = [];
 
-
 /* ==================================================
    START
 ================================================== */
@@ -443,13 +370,10 @@ let tiles = [];
 function startPuzzle() {
 
     tiles = [
-
         0, 1, 2,
         3, 4, 5,
         6, 7, 8
-
     ];
-
 
     /*
     Shuffle by making
@@ -461,12 +385,10 @@ function startPuzzle() {
 
     let empty = 8;
 
-
     for (let i = 0; i < 100; i++) {
 
         const possible =
             getPossibleMoves(empty);
-
 
         const randomIndex =
             Math.floor(
@@ -474,28 +396,20 @@ function startPuzzle() {
                 possible.length
             );
 
-
         const move =
             possible[randomIndex];
-
 
         tiles[empty] =
             tiles[move];
 
-
         tiles[move] =
             8;
 
-
         empty = move;
-
     }
 
-
     render();
-
 }
-
 
 /* ==================================================
    GET POSSIBLE MOVES
@@ -505,14 +419,11 @@ function getPossibleMoves(empty) {
 
     const moves = [];
 
-
     const row =
         Math.floor(empty / SIZE);
 
-
     const column =
         empty % SIZE;
-
 
     /* UP */
 
@@ -521,9 +432,7 @@ function getPossibleMoves(empty) {
         moves.push(
             empty - SIZE
         );
-
     }
-
 
     /* DOWN */
 
@@ -532,9 +441,7 @@ function getPossibleMoves(empty) {
         moves.push(
             empty + SIZE
         );
-
     }
-
 
     /* LEFT */
 
@@ -543,9 +450,7 @@ function getPossibleMoves(empty) {
         moves.push(
             empty - 1
         );
-
     }
-
 
     /* RIGHT */
 
@@ -554,14 +459,10 @@ function getPossibleMoves(empty) {
         moves.push(
             empty + 1
         );
-
     }
 
-
     return moves;
-
 }
-
 
 /* ==================================================
    RENDER PUZZLE
@@ -571,25 +472,20 @@ function render() {
 
     puzzle.innerHTML = "";
 
-
     for (
         let position = 0;
         position < TOTAL;
         position++
     ) {
 
-
         const tileNumber =
             tiles[position];
-
 
         const tile =
             document.createElement("div");
 
-
         tile.className =
             "tile";
-
 
         /*
         EMPTY TILE
@@ -601,9 +497,7 @@ function render() {
                 "empty"
             );
 
-
         } else {
-
 
             /*
             IMAGE TILE
@@ -612,10 +506,8 @@ function render() {
             const img =
                 document.createElement("img");
 
-
             img.src =
                 "gandhi.jpg";
-
 
             /*
             Find original
@@ -627,10 +519,8 @@ function render() {
                     tileNumber / SIZE
                 );
 
-
             const column =
                 tileNumber % SIZE;
-
 
             /*
             Move large image
@@ -641,13 +531,10 @@ function render() {
             img.style.left =
                 (-column * 100) + "%";
 
-
             img.style.top =
                 (-row * 100) + "%";
 
-
             tile.appendChild(img);
-
 
             /*
             CLICK
@@ -661,14 +548,10 @@ function render() {
 
                 }
             );
-
         }
 
-
         puzzle.appendChild(tile);
-
     }
-
 
     /*
     Check solved
@@ -682,11 +565,8 @@ function render() {
 
         message.innerHTML =
             "Move the pieces to rebuild Gandhi.";
-
     }
-
 }
-
 
 /* ==================================================
    MOVE TILE
@@ -694,14 +574,12 @@ function render() {
 
 function moveTile(position) {
 
-
     /*
     Find empty space
     */
 
     const empty =
         tiles.indexOf(8);
-
 
     /*
     Check whether the
@@ -715,9 +593,7 @@ function moveTile(position) {
             "⬜ Move a piece next to the empty space.";
 
         return;
-
     }
-
 
     /*
     SWAP
@@ -726,19 +602,15 @@ function moveTile(position) {
     tiles[empty] =
         tiles[position];
 
-
     tiles[position] =
         8;
-
 
     /*
     Redraw
     */
 
     render();
-
 }
-
 
 /* ==================================================
    CHECK ADJACENT
@@ -749,36 +621,26 @@ function isAdjacent(a, b) {
     const rowA =
         Math.floor(a / SIZE);
 
-
     const colA =
         a % SIZE;
-
 
     const rowB =
         Math.floor(b / SIZE);
 
-
     const colB =
         b % SIZE;
-
 
     const rowDifference =
         Math.abs(rowA - rowB);
 
-
     const columnDifference =
         Math.abs(colA - colB);
 
-
     return (
-
         rowDifference +
         columnDifference === 1
-
     );
-
 }
-
 
 /* ==================================================
    CHECK SOLVED
@@ -795,23 +657,17 @@ function isSolved() {
         if (tiles[i] !== i) {
 
             return false;
-
         }
-
     }
 
-
     return true;
-
 }
-
 
 /* ==================================================
    PUZZLE SOLVED
 ================================================== */
 
 function puzzleSolved() {
-
 
     /*
     Stop showing puzzle
@@ -820,24 +676,19 @@ function puzzleSolved() {
     puzzle.style.display =
         "none";
 
-
     resetButton.style.display =
         "none";
-
 
     document.querySelector(
         ".instruction"
     ).style.display =
         "none";
 
-
     message.innerHTML =
         "🎉 Congratulations!";
 
-
     message.className =
         "success";
-
 
     /*
     Show location
@@ -846,47 +697,34 @@ function puzzleSolved() {
     locationBox.style.display =
         "block";
 
-
     locationBox.scrollIntoView({
-
         behavior: "smooth"
-
     });
-
 }
-
 
 /* ==================================================
    RESET
 ================================================== */
 
 resetButton.addEventListener(
-
     "click",
-
     function () {
 
         locationBox.style.display =
             "none";
 
-
         puzzle.style.display =
             "grid";
-
 
         resetButton.style.display =
             "inline-block";
 
-
         message.className = "";
-
 
         startPuzzle();
 
     }
-
 );
-
 
 /* ==================================================
    START GAME
@@ -895,7 +733,6 @@ resetButton.addEventListener(
 startPuzzle();
 
 </script>
-
 
 </body>
 
